@@ -1,0 +1,94 @@
+<header class="absolute inset-x-0 top-0 z-50">
+    <nav aria-label="Global" class="flex items-center justify-between p-6 lg:px-8">
+      <!-- Logo -->
+      <div class="flex lg:flex-1">
+        <a class="-m-1.5 p-1.5">
+          <span class="sr-only">Pmt</span>
+          <img
+            alt="Your Company Logo"
+            width="100"
+            height="100"
+            src="assets/logoPmt.svg"
+            class="h-8 w-auto"
+          />
+        </a>
+      </div>
+  
+      <!-- Mobile Menu Button -->
+      <div class="flex lg:hidden">
+        <button
+          type="button"
+          (click)="toggleMobileMenu()"
+          class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+        >
+          <span class="sr-only">Open main menu</span>
+          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+          </svg>
+        </button>
+      </div>
+  
+      <!-- Desktop Navigation Links -->
+      <div class="hidden lg:flex lg:gap-x-12">
+        <a
+          *ngFor="let item of navigation"
+          [routerLink]="item.href"
+          class="text-sm font-semibold leading-6 text-gray-900"
+        >
+          {{ item.name }}
+        </a>
+      </div>
+  
+      <!-- Login Link -->
+      <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+        <a routerLink="/auth/login" class="text-sm font-semibold leading-6 text-gray-900">
+          Se Connecter <span aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+    </nav>
+  
+    <!-- Mobile Menu -->
+    <div *ngIf="mobileMenuOpen" class="lg:hidden fixed inset-0 z-50 bg-white px-6 py-6">
+      <div class="flex items-center justify-between">
+        <a routerLink="/" class="-m-1.5 p-1.5">
+          <span class="sr-only">Your Company</span>
+          <img
+            alt="Your Company Logo"
+            width="100"
+            height="100"
+            src="assets/images/mark.svg"
+            class="h-8 w-auto"
+          />
+        </a>
+        <button
+          type="button"
+          (click)="toggleMobileMenu()"
+          class="-m-2.5 rounded-md p-2.5 text-gray-700"
+        >
+          <span class="sr-only">Close menu</span>
+          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+  
+      <div class="mt-6">
+        <div class="space-y-2">
+          <a
+            *ngFor="let item of navigation"
+            [routerLink]="item.href"
+            class="block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+          >
+            {{ item.name }}
+          </a>
+        </div>
+  
+        <div class="py-6">
+          <a routerLink="/auth/login" class="block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+            Se Connecter
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+  

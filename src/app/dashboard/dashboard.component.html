@@ -1,4 +1,66 @@
-<div class="container mt-5">
-  <h1 class="text-center">Bienvenue sur votre tableau de bord</h1>
-  <p class="text-center">Vous êtes maintenant connecté. Utilisez les fonctionnalités de l'application pour gérer vos projets.</p>
+
+<button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
+  <span class="sr-only">Open sidebar</span>
+  <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+  <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
+  </svg>
+</button>
+
+<app-sidebar></app-sidebar>
+
+<div class="sm:ml-64">
+  <div class="p-4 shadow-sm border-1 bg-gray-50 rounded-2xl h-screen">
+     <div class="flex justify-between items-center pb-10">
+        <div class="text-gray-900 font-medium text-lg p-2.5">
+         Projets en cours
+        </div>
+        <div class="flex flex-row gap-4">
+         <div>
+
+            <form class="flex items-center max-w-2xl mx-auto">   
+               <label for="voice-search" class="sr-only">Search</label>
+               <div class="relative w-full">
+                   <div class="absolute inset-y-0 start-0 flex items-center ps-3 text-gray-400 pointer-events-none">
+                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                      </svg>
+                      
+                   </div>
+                   <input type="text" id="voice-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-2xl focus:ring-indigo-500 focus:border-blue-500 block ps-10 p-2.5 w-[500px]" placeholder="Search Mockups, Logos, Design Templates..." required />
+               </div>
+            </form>
+
+         </div>
+         <div>
+            <button (click)="openModal()" type="button" class="text-indigo-600 border-2 border-indigo-600 hover:bg-indigo-700 hover:text-white font-medium rounded-2xl text-sm px-3 py-2.5 text-center inline-flex items-center me-2 mb-2">
+               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>                
+                  Créer un projet
+            </button>
+            <app-project-modal [isModalOpen]="isModalOpen" (close)="closeModal()"></app-project-modal>
+         </div>
+        </div>
+     </div>
+     <div>
+
+
+      <div class="max-w-sm p-6 bg-indigo-50 border border-gray-200 rounded-2xl shadow-sm hover:bg-indigo-100 cursor-pointer">
+         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+          </svg>          
+         <a href="#">
+            <h5 class="mb-2 pt-2 text-xl font-medium tracking-tight text-gray-900 ">Nom du Projet</h5>
+         </a>
+         <p class="mb-3 font-normal text-gray-500">Go to this step by step guideline process on how to certify for your weekly benefits:</p>
+         <a href="#" class="inline-flex font-medium items-center text-indigo-600 hover:underline">
+            See our guideline
+            <svg class="w-3 h-3 ms-2.5 rtl:rotate-[270deg]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11v4.833A1.166 1.166 0 0 1 13.833 17H2.167A1.167 1.167 0 0 1 1 15.833V4.167A1.166 1.166 0 0 1 2.167 3h4.618m4.447-2H17v5.768M9.111 8.889l7.778-7.778"/>
+            </svg>
+         </a>
+      </div>
+
+     </div>
+  </div>
 </div>

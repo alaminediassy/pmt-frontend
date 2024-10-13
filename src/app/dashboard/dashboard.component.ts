@@ -8,5 +8,13 @@ import { Component } from '@angular/core';
 export class DashboardComponent {
   sidebarVisible: boolean = false;
 
-  constructor() {}
+  isModalOpen = false;
+
+  openModal() {
+    this.isModalOpen = true;
+  }
+
+  closeModal() {
+    this.isModalOpen = false;
+  }
 }
