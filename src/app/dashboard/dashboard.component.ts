@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,6 +8,7 @@ import { Component } from '@angular/core';
 })
 export class DashboardComponent {
   sidebarVisible: boolean = false;
+  username: string = '';
 
   isModalOpen = false;
 
@@ -16,5 +18,14 @@ export class DashboardComponent {
 
   closeModal() {
     this.isModalOpen = false;
+  }
+
+  constructor(private authService: AuthService) {}
+
+  ngOnInit() {
+    const userInfo = this.authService.getUserInfo();
+    if (userInfo) {
+      this.username = userInfo.username;
+    }
   }
 }

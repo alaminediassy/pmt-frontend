@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
-import { AuthService} from "../services/auth.service";
-import {Router} from "@angular/router";
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
   username: string = '';
   email: string = '';
   password: string = '';
+  errorMessage: string = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -25,16 +26,16 @@ export class RegisterComponent {
       next: (response) => {
         console.log('Registration successfully', response);
         this.router.navigate(['/login']).then(() => {
-          console.log('Redirect to dashboard');
+          console.log('Redirect to login');
         });
       },
       error: (error) => {
-        console.error('error during registration', error);
+        console.error('Error during registration', error);
+        this.errorMessage = "Erreur lors de l'inscription, veuillez réessayer.";
       },
       complete: () => {
-        console.log('Registration successfully');
+        console.log('Registration process completed');
       }
     });
-
   }
 }
