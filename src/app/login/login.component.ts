@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { AuthService } from "../services/auth.service";
-import { Router } from "@angular/router";
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-login',
@@ -22,19 +23,23 @@ export class LoginComponent {
 
     this.authService.loginUser(user).subscribe({
       next: (response) => {
-        const token = response.token;  // Token renvoyé par l'API
-        this.authService.saveToken(token);  // Stocker le token dans le localStorage
+        console.log("Login successfully", response);
 
-        const decodedToken = this.authService.decodeToken(token);  // Décoder le token pour obtenir les infos utilisateur
-        console.log("Decoded token:", decodedToken);  // Affiche les informations du token (incluant le username)
+        // Stocker le token JWT après la connexion
+        this.authService.saveToken(response.token);
 
-        // Rediriger vers le dashboard
+        // Utiliser getUserInfo pour récupérer les informations utilisateur
+        const userInfo = this.authService.getUserInfo();
+        if (userInfo) {
+          console.log('Utilisateur connecté:', userInfo.username);
+        }
+
         this.router.navigate(['/dashboard']).then(() => {
           console.log('Redirect to dashboard');
         });
       },
       error: (error) => {
-        console.error('Error during login', error);
+        console.error('Erreur lors de la connexion', error);
         this.errorMessage = "Email ou mot de passe incorrect";
       }
     });

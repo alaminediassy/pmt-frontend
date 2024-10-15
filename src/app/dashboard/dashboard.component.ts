@@ -4,11 +4,12 @@ import { AuthService } from '../services/auth.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
   sidebarVisible: boolean = false;
   username: string = '';
+  userId: number | null = null;  // Stocker le userId pour d'autres opérations (comme la création de projet)
 
   isModalOpen = false;
 
@@ -23,9 +24,10 @@ export class DashboardComponent {
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    const userInfo = this.authService.getUserInfo();
+    const userInfo = this.authService.getUserInfo();  // Récupérer les infos utilisateur
     if (userInfo) {
-      this.username = userInfo.username;
+      this.username = userInfo.username;  // Afficher le username
+      this.userId = userInfo.userId;  // Stocker l'userId pour l'utiliser plus tard
     }
   }
 }

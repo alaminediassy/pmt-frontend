@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable, of} from "rxjs";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+// Importer jwt-decode comme un any
+import {jwtDecode} from 'jwt-decode';
 
 interface RegisterUser {
   username: string;
@@ -17,10 +19,10 @@ interface LoginUser {
   providedIn: 'root'
 })
 export class AuthService {
-  private registerApiUrl= 'http://localhost:8091/api/users/register';
+  private registerApiUrl = 'http://localhost:8091/api/users/register';
   private loginApiUrl = 'http://localhost:8091/api/users/login';
   private logoutApiUrl = 'http://localhost:8091/api/users/logout';
-  private tokenKey = 'authToken'
+  private tokenKey = 'authToken';  // Clé du token dans le localStorage
 
   constructor(private http: HttpClient) {}
 
@@ -29,6 +31,7 @@ export class AuthService {
     return this.http.post(this.registerApiUrl, user);
   }
 
+  // Connexion de l'utilisateur
   loginUser(user: LoginUser): Observable<any> {
     return this.http.post(this.loginApiUrl, user);
   }
@@ -38,9 +41,7 @@ export class AuthService {
     localStorage.setItem(this.tokenKey, token);
   }
 
-
-
-  // Méthode pour envoyer la requête de déconnexion au backend
+  // Envoyer la requête de déconnexion au backend
   logoutUser(): Observable<any> {
     const token = this.getToken();  // Récupérer le token du localStorage
 
@@ -48,45 +49,53 @@ export class AuthService {
       const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
       return this.http.post(this.logoutApiUrl, {}, { headers });  // Retourner un Observable
     }
-    
+
     // Retourne un Observable vide si aucun token n'est présent
-    return of(null);  // Utiliser 'of' pour retourner un Observable
+    return of(null);
   }
 
   // Supprimer le token du localStorage après déconnexion
-  removeToken() {
+  removeToken(): void {
     localStorage.removeItem(this.tokenKey);
   }
 
-  // Récupérer le token JWT
+  // Récupérer le token JWT du localStorage
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
   }
 
-
-  // Décoder le token JWT
-  decodeToken(token: string): any {
-    if (!token) {
-      return null;
-    }
-
-    // Décoder le payload du token (entre les 2 points du JWT)
-    const payload = token.split('.')[1];
-    return JSON.parse(atob(payload));
-  }
-
-  // Récupérer les informations de l'utilisateur connecté (comme le username) à partir du token décodé
-  getUserInfo(): any {
+  // Décoder le token JWT et retourner userId et username
+  getUserInfo(): { userId: number, username: string } | null {
     const token = this.getToken();
     if (token) {
-      return this.decodeToken(token);
+      try {
+        const decodedToken: any = jwtDecode(token);  // Décoder le token JWT
+        return {
+          userId: decodedToken.userId,  // Assure-toi que le token contient userId
+          username: decodedToken.username  // Assure-toi que le token contient username
+        };
+      } catch (error) {
+        console.error('Erreur lors du décodage du token JWT:', error);
+        return null;
+      }
     }
     return null;
   }
-
   // Vérifier si l'utilisateur est connecté (présence d'un token valide)
   isAuthenticated(): boolean {
     const token = this.getToken();
-    return !!token; // Retourne true si le token est présent
+    if (!token) {
+      return false;
+    }
+
+    // Vérifier si le token est expiré
+    try {
+      const decodedToken: any = jwtDecode(token);
+      const currentTime = Math.floor(Date.now() / 1000);  // Temps actuel en secondes
+      return decodedToken.exp && decodedToken.exp > currentTime;  // Vérifie l'expiration
+    } catch (error) {
+      console.error('Erreur lors de la vérification du token JWT:', error);
+      return false;
+    }
   }
 }
