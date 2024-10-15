@@ -16,6 +16,7 @@ import { HeaderComponent } from './header/header.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectModalComponent } from './components/project-modal/project-modal.component';
+import { InviteMemberComponent } from './components/invite-member/invite-member.component';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { ProjectModalComponent } from './components/project-modal/project-modal.
     SidebarComponent,
     ProjectListComponent,
     ProjectModalComponent,
+    InviteMemberComponent,
   ],
   imports: [
     BrowserModule,

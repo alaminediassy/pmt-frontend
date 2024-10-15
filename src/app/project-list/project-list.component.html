@@ -1,5 +1,22 @@
+<div class="flex flex-row gap-4">
+   <!-- Créer un projet -->
+   <div>
+      <button (click)="openModal()" type="button" class="text-indigo-600 border-1 border-indigo-100 hover:text-lime-600 hover:bg-indigo-100 font-medium rounded-2xl text-sm px-3 py-2.5 text-center inline-flex items-center me-2 mb-2">
+         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-folder-plus">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M12 19h-7a2 2 0 0 1 -2 -2v-11a2 2 0 0 1 2 -2h4l3 3h7a2 2 0 0 1 2 2v3.5" />
+            <path d="M16 19h6" />
+            <path d="M19 16v6" />
+          </svg>    
+           <span class="ml-2">Créer un projet</span>
+      </button>
+      <app-project-modal [isModalOpen]="isModalOpen" (close)="closeModal()"></app-project-modal>
+   </div>
+</div>
+
+<!-- Project list -->
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 bg-slate-100 p-4 rounded-xl">
-   <div *ngFor="let project of projects" class="max-w-sm p-4 flex flex-col justify-between bg-white/50 border border-gray-200 rounded-2xl shadow-sm hover:bg-indigo-100 cursor-pointer transition-all duration-300 overflow-hidden relative">
+   <div *ngFor="let project of projects" class="max-w-sm p-4 flex flex-col justify-between bg-white/50 border border-gray-200 rounded-2xl shadow-sm cursor-pointer transition-all duration-300 overflow-hidden relative">
       <div>
          <div class="flex gap-2 items-center text-indigo-600">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
@@ -10,20 +27,30 @@
             </a>
          </div>
    
-         <!-- Description alignée directement après le titre -->
          <p class="mb-3 font-normal text-gray-500 description">
             {{ project.description }}
          </p>
       </div>
- 
-      <!-- Créateur en bas avec justify-between appliqué -->
-      <div class="inline-flex font-medium items-center text-gray-500">
-         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-         </svg> 
-         <span class="text-gray-500 hover:underline text-sm">Créé par : </span>
-         <span class="text-indigo-600 hover:underline ml-2 text-sm"> {{ project.owner.username }} </span>
+
+      <!-- Bouton d'invitation spécifique au projet -->
+      <div class="mt-4">
+         <button (click)="openInviteMemberModal(project.id)" type="button" class="text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-2xl text-sm px-3 py-2.5 text-center inline-flex items-center me-2 mb-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-users-plus">
+               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+               <path d="M5 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+               <path d="M3 21v-2a4 4 0 0 1 4 -4h4c.96 0 1.84 .338 2.53 .901" />
+               <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+               <path d="M16 19h6" />
+               <path d="M19 16v6" />
+            </svg>        
+            <span class="ml-2 text-xs font-medium">Inviter un membre</span>
+         </button>
+         <app-invite-member 
+         [selectedProjectId]="selectedProjectId"  
+         [isInviteMemberModalOpen]="isInviteMemberModalOpen" 
+         (close)="closeInviteMemberModal()">
+         </app-invite-member>
       </div>
+      
    </div>
- </div>
- 
+</div>

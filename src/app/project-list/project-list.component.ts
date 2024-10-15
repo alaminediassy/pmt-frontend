@@ -9,6 +9,32 @@ import { AuthService } from '../services/auth.service';
 })
 
 export class ProjectListComponent implements OnInit {
+  isInviteMemberModalOpen = false;
+  selectedProjectId: number | null = null;
+
+  openInviteMemberModal(projectId: number) {
+    console.log('ID du projet sélectionné:', projectId);
+    this.selectedProjectId = projectId;
+    this.isInviteMemberModalOpen = true;
+  }
+
+  closeInviteMemberModal() {
+    this.isInviteMemberModalOpen = false;
+    this.selectedProjectId = null;
+  }
+
+  
+  
+  isModalOpen = false;
+
+  openModal() {
+    this.isModalOpen = true;
+  }
+
+  closeModal() {
+    this.isModalOpen = false;
+  }
+
   projects: any[] = [];
 
   constructor(private projectService: ProjectService, private authService: AuthService) {}
