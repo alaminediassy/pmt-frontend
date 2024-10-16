@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ProjectService } from '../../services/project.service';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';  // Importer ToastrService
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-project-modal',

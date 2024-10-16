@@ -17,6 +17,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectModalComponent } from './components/project-modal/project-modal.component';
 import { InviteMemberComponent } from './components/invite-member/invite-member.component';
+import { TestPanelComponent } from './test-panel/test-panel.component';
+import { RoleManagementComponent } from './components/role-management/role-management.component';
 
 
 @NgModule({
@@ -31,6 +33,8 @@ import { InviteMemberComponent } from './components/invite-member/invite-member.
     ProjectListComponent,
     ProjectModalComponent,
     InviteMemberComponent,
+    TestPanelComponent,
+    RoleManagementComponent,
   ],
   imports: [
     BrowserModule,

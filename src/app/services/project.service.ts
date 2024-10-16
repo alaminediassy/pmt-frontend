@@ -48,4 +48,16 @@ export class ProjectService {
     const url = `${this.apiUrl}/${projectId}/invite/${userId}`;
     return this.http.post<any>(url, inviteRequestDTO);  // Retourne un Observable avec la réponse du serveur
   }
+
+  /**
+   * Method to assign role to member
+   * @param projectId 
+   * @param memberId 
+   * @param role 
+   * @returns 
+   */
+  assignRoleToMember(projectId: number, memberId: number, role: string): Observable<any> {
+    const roleAssignmentDTO = { role };
+    return this.http.put(`${this.apiUrl}/${projectId}/assign-role/${memberId}`, roleAssignmentDTO);
+  }
 }
