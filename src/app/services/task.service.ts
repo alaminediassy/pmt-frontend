@@ -25,5 +25,12 @@ export class TaskService {
     return this.http.get(`${this.projectApiUrl}/tasks/user/${userId}`);
   }
 
+  // Méthode pour mettre à jour le statut d'une tâche
+  updateTaskStatus(taskId: number, projectId: number, userId: number, status: string): Observable<any> {
+    const url = `${this.projectApiUrl}/${projectId}/tasks/${taskId}/update-status/${userId}`;
+    const statusBody = { status };  // Encapsuler dans un objet si le backend attend un body JSON
+    return this.http.put(url, statusBody);  // Appel PUT
+  }
+
   // Autres méthodes liées aux tâches peuvent être ajoutées ici
 }

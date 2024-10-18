@@ -1,0 +1,22 @@
+.grid {
+    .description {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: max-height 0.3s ease;
+      max-height: 4.5rem; 
+  
+      div:hover & {
+        -webkit-line-clamp: unset;
+        max-height: 100%;
+        overflow: visible;
+      }
+    }
+  
+    div {
+      transition: all 0.3s ease-in-out;
+    }
+}
+  
