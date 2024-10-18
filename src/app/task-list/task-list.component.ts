@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TaskService } from '../services/task.service';
 import { AuthService } from '../services/auth.service';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { DndDropEvent } from 'ngx-drag-drop';
 
 @Component({
@@ -9,74 +8,113 @@ import { DndDropEvent } from 'ngx-drag-drop';
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss'
 })
-export class TaskListComponent implements OnInit{
+export class TaskListComponent implements OnInit {
+  
+  /**
+   * List of tasks fetched from the backend
+   */
   tasks: any[] = [];
+  
+  /**
+   * Indicates whether the task creation modal is open
+   */
   isTaskModalOpen = false;
 
-  // Tâches filtrées par statut
+  /**
+   * Filtered tasks categorized by their status
+   */
   tasksTodo: any[] = [];
   tasksInProgress: any[] = [];
   tasksCompleted: any[] = [];
 
+  /**
+   * Breadcrumb navigation data
+   */
   breadcrumbs = [
     { label: 'Dashboard', url: '/dashboard' },
     { label: 'Tasks' }
   ];
 
+  /**
+   * Constructor injecting TaskService and AuthService
+   * @param taskService Service for handling task operations
+   * @param authService Service for managing user authentication
+   */
   constructor(private taskService: TaskService, private authService: AuthService) {}
 
-  // Ouvrir le modal de création de tâche
+  /**
+   * Opens the task creation modal
+   */
   openTaskModal() {
     this.isTaskModalOpen = true;
   }
 
+  /**
+   * Closes the task creation modal
+   */
   closeTaskModal() {
     this.isTaskModalOpen = false;
   }
 
-  // Charger les tâches de l'utilisateur
+  /**
+   * Loads tasks associated with the authenticated user by calling the TaskService
+   */
   loadTasks() {
     const userInfo = this.authService.getUserInfo();
     if (userInfo && userInfo.userId) {
       this.taskService.getTasksByUserId(userInfo.userId).subscribe({
         next: (tasks) => {
           this.tasks = tasks;
-          this.filterTasksByStatus();
+          // Filter tasks into categories based on status
+          this.filterTasksByStatus(); 
         },
         error: (error) => {
-          console.error('Erreur lors de la récupération des tâches:', error);
+          console.error('Error while fetching tasks:', error);
         }
       });
     }
   }
 
-  // Méthode pour filtrer les tâches selon leur statut
+  /**
+   * Filters tasks into their respective status categories (TODO, IN_PROGRESS, COMPLETED)
+   */
   filterTasksByStatus() {
     this.tasksTodo = this.tasks.filter(task => task.status === 'TODO');
     this.tasksInProgress = this.tasks.filter(task => task.status === 'IN_PROGRESS');
     this.tasksCompleted = this.tasks.filter(task => task.status === 'COMPLETED');
   }
 
-  // Méthode appelée lorsque l'on déplace une tâche
+  /**
+   * Handles the drag-and-drop event to update the task's status
+   * @param event The drop event containing the task data
+   * @param newStatus The new status to assign to the task after it is moved
+   */
   onTaskDrop(event: DndDropEvent, newStatus: string) {
-    const task = event.data; // La tâche déplacée
+    const task = event.data;  // The task being moved
     const userInfo = this.authService.getUserInfo();
 
     if (task && userInfo && userInfo.userId) {
-      // Mise à jour du statut de la tâche côté backend
+      // Update the task status in the backend
       this.taskService.updateTaskStatus(task.id, task.project.id, userInfo.userId, newStatus).subscribe({
         next: () => {
-          // Recharger les tâches après le changement de statut
-          this.loadTasks();
+          this.loadTasks();  // Reload tasks to reflect the new status
         },
         error: (error) => {
-          console.error('Erreur lors de la mise à jour du statut:', error);
+          console.error('Error while updating task status:', error);
         }
       });
     }
-  }  
-  
+  }
 
+
+  // Mettre à jour la liste des tâches après création
+  onTaskCreated() {
+    this.loadTasks();
+  }
+
+  /**
+   * Lifecycle hook called on component initialization to load tasks
+   */
   ngOnInit(): void {
     this.loadTasks();
   }

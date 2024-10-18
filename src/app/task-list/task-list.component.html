@@ -1,7 +1,7 @@
-<!-- Breadcrumb pour la navigation -->
+<!-- Breadcrumb for navigation -->
 <app-breadcrumb [breadcrumbs]="breadcrumbs"></app-breadcrumb>
 
-<!-- Bouton pour créer une tâche -->
+<!-- Button to create a task -->
 <div class="flex flex-row gap-4">
   <div>
     <button (click)="openTaskModal()" 
@@ -25,25 +25,25 @@
       </svg>
       <span class="ml-2">Créer une tâche</span>
     </button>
-    <!-- Modal pour créer une tâche -->
-    <app-task-modal [isModalOpen]="isTaskModalOpen" (closeModal)="closeTaskModal()"></app-task-modal>
+    <!-- Modal to create a task -->
+    <app-task-modal [isModalOpen]="isTaskModalOpen" (closeModal)="closeTaskModal()" (taskCreated)="onTaskCreated()"></app-task-modal>
   </div>
 </div>
 
-<!-- Liste des tâches avec support drag-and-drop -->
+<!-- Task list with drag-and-drop support -->
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 bg-slate-100 p-4 rounded-xl">
 
-  <!-- Section À FAIRE -->
+  <!-- TODO Section -->
   <div class="ring-1 ring-pink-500 ring-inset rounded-xl p-4" 
        dndDropzone 
        (dndDrop)="onTaskDrop($event, 'TODO')">
     <span class="text-xl font-semibold text-pink-500">À FAIRE</span>
     <div class="pt-4 flex flex-col gap-4">
-      <!-- Tâches à faire -->
+      <!-- TASK TO DO -->
       <div *ngFor="let task of tasksTodo" 
            dndDraggable 
            [dndDraggable]="task" 
-           class="max-w-sm p-4 flex flex-col justify-between bg-white/50 border border-gray-200 rounded-2xl shadow-sm cursor-pointer transition-all duration-300 overflow-hidden relative">
+           class="todo-task-cursor max-w-sm p-4 flex flex-col justify-between bg-white/50 border border-gray-200 rounded-2xl shadow-sm cursor-pointer transition-all duration-300 overflow-hidden relative">
         <div>
           <div class="text-right text-sm text-gray-500">Date limite : <span class="text-indigo-600">{{ task.dueDate | date }}</span></div>
           <div class="flex flex-row gap-2 items-center text-indigo-600">
@@ -76,7 +76,7 @@
     </div>
   </div>
 
-  <!-- Section EN COURS -->
+  <!-- IN PROGRESS SECTION -->
   <div class="ring-1 ring-orange-500 ring-inset rounded-xl p-4" 
        dndDropzone 
        (dndDrop)="onTaskDrop($event, 'IN_PROGRESS')">
@@ -85,7 +85,7 @@
       <div *ngFor="let task of tasksInProgress" 
            dndDraggable 
            [dndDraggable]="task" 
-           class="max-w-sm p-4 flex flex-col justify-between bg-white/50 border border-gray-200 rounded-2xl shadow-sm cursor-pointer transition-all duration-300 overflow-hidden relative">
+           class="progress-task-cursor max-w-sm p-4 flex flex-col justify-between bg-white/50 border border-gray-200 rounded-2xl shadow-sm cursor-pointer transition-all duration-300 overflow-hidden relative">
         <div>
           <div class="text-right text-sm text-gray-500">Date limite : <span class="text-indigo-600">{{ task.dueDate | date }}</span></div>
           <div class="flex flex-row gap-2 items-center text-indigo-600">
@@ -118,7 +118,7 @@
     </div>
   </div>
 
-  <!-- Section TERMINÉ -->
+  <!-- COMPLETED SECTION -->
   <div class="ring-1 ring-indigo-500 ring-inset rounded-xl p-4" 
        dndDropzone 
        (dndDrop)="onTaskDrop($event, 'COMPLETED')">
@@ -127,7 +127,7 @@
       <div *ngFor="let task of tasksCompleted" 
            dndDraggable 
            [dndDraggable]="task" 
-           class="max-w-sm p-4 flex flex-col justify-between bg-white/50 border border-gray-200 rounded-2xl shadow-sm cursor-pointer transition-all duration-300 overflow-hidden relative">
+           class="completed-task-cursor max-w-sm p-4 flex flex-col justify-between bg-white/50 border border-gray-200 rounded-2xl shadow-sm cursor-pointer transition-all duration-300 overflow-hidden relative">
         <div>
           <div class="text-right text-sm text-gray-500">Date limite : <span class="text-indigo-600">{{ task.dueDate | date }}</span></div>
           <div class="flex flex-row gap-2 items-center text-indigo-600">

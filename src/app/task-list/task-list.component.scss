@@ -19,4 +19,31 @@
       transition: all 0.3s ease-in-out;
     }
 }
-  
+
+/* task-list.component.scss */
+.todo-task-cursor {
+  cursor: url('/assets/cursors/pink.svg'), auto;
+}
+
+/* Changer le curseur sur hover */
+.todo-task-cursor:hover {
+  cursor: url('/assets/cursors/pink.svg'), pointer;
+}
+
+.progress-task-cursor {
+  cursor: url('/assets/cursors/orange.svg'), auto;
+}
+
+/* Changer le curseur sur hover */
+.progress-task-cursor:hover {
+  cursor: url('/assets/cursors/orange.svg'), pointer;
+}
+
+.completed-task-cursor {
+  cursor: url('/assets/cursors/indigo.svg'), auto;
+}
+
+/* Changer le curseur sur hover */
+.completed-task-cursor:hover {
+  cursor: url('/assets/cursors/indigo.svg'), pointer;
+}

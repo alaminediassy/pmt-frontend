@@ -12,16 +12,17 @@ import { ToastrService } from 'ngx-toastr';  // Pour afficher les notifications
 export class TaskModalComponent implements OnInit {
   @Input() isModalOpen: boolean = false;
   @Output() closeModal = new EventEmitter<void>();
+  @Output() taskCreated = new EventEmitter<void>();
   taskForm!: FormGroup;
   projects: any[] = [];
   selectedProjectId: number | null = null;
-  userId: number | null = null;  // Stockage de l'ID utilisateur
+  userId: number | null = null;  
 
   constructor(
     private fb: FormBuilder, 
     private projectService: ProjectService, 
     private authService: AuthService,
-    private toastr: ToastrService  // Injecter le service Toastr pour les notifications
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -74,7 +75,8 @@ export class TaskModalComponent implements OnInit {
       this.projectService.createTask(taskData, this.userId).subscribe({
         next: () => {
           this.toastr.success('Tâche créée avec succès !');
-          this.closeModal.emit();  // Ferme le modal après la création
+          this.taskCreated.emit();
+          this.closeModal.emit(); 
         },
         error: (error) => {
           console.error('Erreur lors de la création de la tâche:', error);
