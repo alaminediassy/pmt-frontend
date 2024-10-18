@@ -60,4 +60,16 @@ export class ProjectService {
     const roleAssignmentDTO = { role };
     return this.http.put(`${this.apiUrl}/${projectId}/assign-role/${memberId}`, roleAssignmentDTO);
   }
+
+
+  /**
+   * Method to create project
+   * @param taskData 
+   * @param userId 
+   * @returns 
+   */
+  createTask(taskData: any, userId: number): Observable<any> {
+    const url = `${this.apiUrl}/${taskData.projectId}/tasks/${userId}`;
+    return this.http.post(url, taskData);
+  }
 }

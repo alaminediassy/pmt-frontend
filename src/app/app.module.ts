@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';  // Nécessaire pour les animations de toast
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RegisterComponent } from './register/register.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
@@ -19,6 +19,10 @@ import { ProjectModalComponent } from './components/project-modal/project-modal.
 import { InviteMemberComponent } from './components/invite-member/invite-member.component';
 import { TestPanelComponent } from './test-panel/test-panel.component';
 import { RoleManagementComponent } from './components/role-management/role-management.component';
+import { TaskModalComponent } from './components/task-modal/task-modal.component';
+import { TaskListComponent } from './task-list/task-list.component';
+import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
+import { DashboardContentComponent } from './components/dashboard-content/dashboard-content.component';
 
 
 @NgModule({
@@ -35,6 +39,10 @@ import { RoleManagementComponent } from './components/role-management/role-manag
     InviteMemberComponent,
     TestPanelComponent,
     RoleManagementComponent,
+    TaskModalComponent,
+    TaskListComponent,
+    BreadcrumbComponent,
+    DashboardContentComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,7 +51,8 @@ import { RoleManagementComponent } from './components/role-management/role-manag
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

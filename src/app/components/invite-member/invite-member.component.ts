@@ -37,7 +37,7 @@ export class InviteMemberComponent implements OnInit {
       return;
     }
 
-    const userInfo = this.authService.getUserInfo();  // Récupérer les informations utilisateur
+    const userInfo = this.authService.getUserInfo();
     if (userInfo) {
       this.projectService.inviteMemberToProject(this.selectedProjectId, userInfo.userId, this.email).subscribe({
         next: (response: any) => {

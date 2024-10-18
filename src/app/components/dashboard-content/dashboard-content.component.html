@@ -1,0 +1,39 @@
+<!-- dashboard-content.component.html -->
+
+<div class="dashboard-content">
+    <!-- Statistiques du tableau de bord -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+       <div class="bg-white shadow rounded-lg p-4">
+          <h4 class="text-lg font-semibold text-gray-600 mb-2">Total des projets</h4>
+          <p class="text-3xl font-bold text-indigo-600">15</p>
+       </div>
+ 
+       <div class="bg-white shadow rounded-lg p-4">
+          <h4 class="text-lg font-semibold text-gray-600 mb-2">Tâches en cours</h4>
+          <p class="text-3xl font-bold text-orange-600">8</p>
+       </div>
+ 
+       <div class="bg-white shadow rounded-lg p-4">
+          <h4 class="text-lg font-semibold text-gray-600 mb-2">Notifications</h4>
+          <p class="text-3xl font-bold text-red-600">4</p>
+       </div>
+    </div>
+ 
+    <!-- Projets récents -->
+    <div class="bg-white shadow rounded-lg p-4 mb-6">
+       <h4 class="text-lg font-semibold text-gray-600 mb-2">Projets récents</h4>
+       <ul class="list-disc list-inside text-gray-600">
+          <li>Projet 1 - Description du projet 1</li>
+          <li>Projet 2 - Description du projet 2</li>
+          <li>Projet 3 - Description du projet 3</li>
+       </ul>
+    </div>
+ 
+    <!-- Graphiques -->
+    <div class="bg-white shadow rounded-lg p-4">
+       <h4 class="text-lg font-semibold text-gray-600 mb-2">Graphiques de performances</h4>
+       <!-- Ajouter un graphique ici (par exemple avec Chart.js) -->
+       <canvas id="performanceChart"></canvas>
+    </div>
+ </div>
+ 

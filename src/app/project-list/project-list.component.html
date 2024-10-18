@@ -1,3 +1,6 @@
+<!-- Breadcrump for navigation -->
+<app-breadcrumb [breadcrumbs]="breadcrumbs"></app-breadcrumb>
+
 <div class="flex flex-row gap-4">
    <!-- Créer un projet -->
    <div>
@@ -12,9 +15,24 @@
       </button>
       <app-project-modal [isModalOpen]="isModalOpen" (close)="closeModal()"></app-project-modal>
    </div>
+
+   <!-- Créer une tâche -->
+   <div>
+      <button (click)="openTaskModal()" type="button" class="text-orange-600 border-1 border-indigo-100 hover:text-indigo-600 hover:bg-indigo-100 font-medium rounded-2xl text-sm px-3 py-2.5 text-center inline-flex items-center me-2 mb-2">
+         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-clipboard-plus">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2" />
+            <path d="M9 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" />
+            <path d="M10 14h4" />
+            <path d="M12 12v4" />
+          </svg> 
+           <span class="ml-2">Créer une tâche</span>
+      </button>
+      <app-task-modal [isModalOpen]="isTaskModalOpen" (closeModal)="closeTaskModal()"></app-task-modal>
+   </div>
 </div>
 
-<!-- Project list -->
+<!-- Liste des projets -->
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 bg-slate-100 p-4 rounded-xl">
    <div *ngFor="let project of projects" class="max-w-sm p-4 flex flex-col justify-between bg-white/50 border border-gray-200 rounded-2xl shadow-sm cursor-pointer transition-all duration-300 overflow-hidden relative">
       <div>
@@ -72,4 +90,3 @@
   (close)="closeRoleManagementPanel()"
   (rolesUpdated)="onRolesUpdated()">
 </app-role-management>
-

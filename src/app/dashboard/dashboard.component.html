@@ -42,7 +42,7 @@
           <app-project-modal [isModalOpen]="isModalOpen" (close)="closeModal()"></app-project-modal>
         </div>
      </div>
-
+     <app-dashboard-content *ngIf="showDashboardContent"></app-dashboard-content>
      <!-- <router-outlet> pour charger les enfants -->
      <router-outlet></router-outlet>
 

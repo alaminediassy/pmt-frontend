@@ -5,6 +5,7 @@ import { HomeComponent } from "./home/home.component";
 import {LoginComponent} from "./login/login.component";
 import {DashboardComponent} from "./dashboard/dashboard.component";
 import { ProjectListComponent } from './project-list/project-list.component';
+import { TaskListComponent } from './task-list/task-list.component';
 import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
@@ -19,7 +20,7 @@ const routes: Routes = [
     canMatch: [AuthGuard], 
     children: [
       { path: 'projects', component: ProjectListComponent },
-      
+      { path: 'tasks', component: TaskListComponent },
     ] 
   },
   { path: '**', redirectTo: '', pathMatch: 'full' }
