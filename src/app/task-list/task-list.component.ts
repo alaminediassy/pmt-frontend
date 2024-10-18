@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TaskService } from '../services/task.service';
 import { AuthService } from '../services/auth.service';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { DndDropEvent } from 'ngx-drag-drop';
 
 @Component({
   selector: 'app-task-list',
@@ -56,28 +57,22 @@ export class TaskListComponent implements OnInit{
     this.tasksCompleted = this.tasks.filter(task => task.status === 'COMPLETED');
   }
 
-  // Gérer le changement de statut lorsqu'une tâche est déplacée
-  onTaskDrop(event: CdkDragDrop<any[]>, newStatus: string) {
-    const task = event.item.data;  // La tâche qui est déplacée
-    const previousContainer = event.previousContainer;
-    const currentContainer = event.container;
-  
-    // Si la tâche a été déplacée dans une autre colonne
-    if (previousContainer !== currentContainer) {
-      const userInfo = this.authService.getUserInfo();
-      
-      if (task && userInfo && userInfo.userId) {
-        // Appeler le backend pour mettre à jour le statut
-        this.taskService.updateTaskStatus(task.id, task.project.id, userInfo.userId, newStatus).subscribe({
-          next: (updatedTask) => {
-            // Actualiser la liste des tâches
-            this.loadTasks();
-          },
-          error: (error) => {
-            console.error('Erreur lors de la mise à jour du statut de la tâche:', error);
-          }
-        });
-      }
+  // Méthode appelée lorsque l'on déplace une tâche
+  onTaskDrop(event: DndDropEvent, newStatus: string) {
+    const task = event.data; // La tâche déplacée
+    const userInfo = this.authService.getUserInfo();
+
+    if (task && userInfo && userInfo.userId) {
+      // Mise à jour du statut de la tâche côté backend
+      this.taskService.updateTaskStatus(task.id, task.project.id, userInfo.userId, newStatus).subscribe({
+        next: () => {
+          // Recharger les tâches après le changement de statut
+          this.loadTasks();
+        },
+        error: (error) => {
+          console.error('Erreur lors de la mise à jour du statut:', error);
+        }
+      });
     }
   }  
   

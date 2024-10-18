@@ -24,6 +24,7 @@ import { TaskListComponent } from './task-list/task-list.component';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { DashboardContentComponent } from './components/dashboard-content/dashboard-content.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { DndModule } from 'ngx-drag-drop';
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     ReactiveFormsModule,
-    DragDropModule
+    DragDropModule,
+    DndModule
   ],
   providers: [],
   bootstrap: [AppComponent]
