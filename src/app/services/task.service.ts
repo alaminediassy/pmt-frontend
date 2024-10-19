@@ -32,5 +32,21 @@ export class TaskService {
     return this.http.put(url, statusBody);  // Appel PUT
   }
 
-  // Autres méthodes liées aux tâches peuvent être ajoutées ici
+  // Nouvelle méthode pour récupérer les membres d'un projet
+  getProjectMembers(projectId: number): Observable<any> {
+    return this.http.get(`${this.projectApiUrl}/${projectId}/members`);
+  }
+
+  // Assigner une tâche à un membre
+  assignTaskToMember(projectId: number, taskId: number, assigneeId: number): Observable<any> {
+    return this.http.post(`${this.projectApiUrl}/${projectId}/tasks/${taskId}/assign-task/${assigneeId}`, {});
+  }
+
+  // task.service.ts
+  getTasksByProjectId(projectId: number): Observable<any> {
+    return this.http.get(`${this.projectApiUrl}/${projectId}/tasks`);
+  }
+
+
+
 }

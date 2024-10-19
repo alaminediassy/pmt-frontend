@@ -1,0 +1,60 @@
+<div *ngIf="isModalOpen" id="assign-task-modal" tabindex="-1" 
+    class="fixed inset-0 z-50 flex justify-center items-center w-full h-screen bg-indigo-50 bg-opacity-50 backdrop-blur-[2px]">
+  <div class="relative p-4 w-full max-w-md max-h-full">
+    <div class="relative bg-white rounded-lg shadow">
+      <!-- Modal header -->
+      <div class="flex items-center justify-between p-4 border-b rounded-t">
+        <h3 class="text-lg font-semibold text-gray-900">Assigner la tâche</h3>
+        <button type="button" (click)="close()" 
+                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center">
+          <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                  d="M1 1l6 6m0 0l6 6M7 7l6-6M7 7L1 13"/>
+          </svg>
+          <span class="sr-only">Fermer</span>
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="p-4 md:p-5">
+        <!-- Projet -->
+        <div class="mb-4">
+          <label class="block mb-2 text-sm font-medium text-gray-900">Projet</label>
+          <input type="text" [value]="selectedProjectId" 
+                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5" 
+                 disabled>
+        </div>
+
+        <!-- Tâche -->
+        <div class="mb-4">
+          <label class="block mb-2 text-sm font-medium text-gray-900">Tâche</label>
+          <input type="text" [value]="selectedTaskId" 
+                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5" 
+                 disabled>
+        </div>
+
+        <!-- Membres du projet -->
+        <div class="mb-4">
+          <label for="member" class="block mb-2 text-sm font-medium text-gray-900">Assigner à</label>
+          <select id="member" [(ngModel)]="selectedMemberId" 
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5">
+            <option *ngFor="let member of members" [value]="member.id">{{ member.fullName }}</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="flex items-center justify-end p-4 border-t border-gray-200 rounded-b">
+        <button type="button" (click)="close()" 
+                class="text-gray-500 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-indigo-300 rounded-lg text-sm px-4 py-2.5 me-2">
+          Annuler
+        </button>
+        <button type="button" (click)="assignTask()" 
+                [disabled]="!selectedMemberId" 
+                class="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 rounded-lg text-sm px-4 py-2.5">
+          Assigner
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

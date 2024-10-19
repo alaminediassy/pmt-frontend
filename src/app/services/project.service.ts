@@ -72,4 +72,22 @@ export class ProjectService {
     const url = `${this.apiUrl}/${taskData.projectId}/tasks/${userId}`;
     return this.http.post(url, taskData);
   }
+
+
+  // Nouvelle méthode pour récupérer les membres d'un projet
+  getProjectMembers(projectId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${projectId}/members`);
+  }
+
+  // Assigner une tâche à un membre
+  assignTaskToMember(projectId: number, taskId: number, assigneeId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/${projectId}/tasks/${taskId}/assign-task/${assigneeId}`, {});
+  }
+
+  // Nouvelle méthode pour récupérer les tâches par projectId
+  getTasksByProjectId(projectId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${projectId}/tasks`);
+  }
+
+
 }

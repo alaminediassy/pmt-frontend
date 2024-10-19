@@ -1,9 +1,9 @@
 <!-- Sidebar Panel avec défilement -->
-<div *ngIf="project" id="sidePanel" class="fixed top-0 right-0 w-[600px] h-screen bg-white shadow-lg z-50 flex flex-col">
+<div *ngIf="project" id="sidePanel" class="fixed top-0 right-0 w-full sm:w-[400px] lg:w-[600px] h-screen bg-white shadow-lg z-50 flex flex-col transition-transform duration-300">
   
   <!-- Panel header -->
   <div class="flex justify-between items-center p-4 border-b">
-    <h3 class="text-lg font-semibold">Détails du projet - {{ project?.name }}</h3>
+    <h3 class="text-base sm:text-lg font-semibold">Détails du projet - {{ project?.name }}</h3>
     <button (click)="closePanel()" class="text-gray-400 hover:text-gray-600">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -17,7 +17,7 @@
     <div class="pb-10">
       <div>
         <label class="text-sm text-indigo-500">Nom du Projet</label>
-        <h3 class="text-xl text-gray-700 pb-2">{{ project?.name }}</h3>
+        <h3 class="text-base sm:text-xl text-gray-700 pb-2">{{ project?.name }}</h3>
       </div>
       <div>
         <label class="text-sm text-indigo-500">Description du Projet</label>
@@ -31,24 +31,24 @@
 
     <!-- Project members -->
     <div class="pb-10">
-      <h3 class="pb-4 text-lg">Les membres du projet</h3>
+      <h3 class="pb-4 text-base sm:text-lg">Les membres du projet</h3>
 
-      <div class="relative overflow-x-auto border-1">
+      <div class="relative overflow-x-auto border border-gray-200">
         <table class="w-full text-sm text-left text-gray-500">
           <thead class="text-xs text-gray-700 uppercase bg-indigo-100">
             <tr>
-              <th scope="col" class="px-6 py-3">Prénom et Nom</th>
-              <th scope="col" class="px-6 py-3">Rôle</th>
-              <th scope="col" class="px-6 py-3">Modifier le rôle</th>
+              <th scope="col" class="px-2 sm:px-6 py-3">Prénom et Nom</th>
+              <th scope="col" class="px-2 sm:px-6 py-3">Rôle</th>
+              <th scope="col" class="px-2 sm:px-6 py-3">Modifier le rôle</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let member of project?.membersWithRoles" class="bg-white border-b">
-              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+              <th scope="row" class="px-2 sm:px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                 {{ member?.member?.username }}
               </th>
-              <td class="px-6 py-4">{{ member?.role }}</td>
-              <td class="px-6 py-4">
+              <td class="px-2 sm:px-6 py-4">{{ member?.role }}</td>
+              <td class="px-2 sm:px-6 py-4">
                 <select class="border rounded px-2 py-1 text-gray-700" (change)="updateRole(member.member.id, $event)">
                   <option selected disabled>Modifier le rôle</option>
                   <option value="ADMIN" [selected]="member?.role === 'ADMIN'">Administrateur</option>
@@ -65,11 +65,11 @@
 
   <!-- Boutons en bas, toujours visibles -->
   <div class="p-4 border-t bg-white">
-    <div class="flex gap-2">
-      <button (click)="closePanel()" class="text-indigo-600 border-1 border-indigo-100 hover:bg-indigo-100 font-medium rounded-2xl text-sm px-3 py-2.5 text-center inline-flex items-center me-2 mb-2">
+    <div class="flex flex-col sm:flex-row gap-2">
+      <button (click)="closePanel()" class="text-indigo-600 border-1 border-indigo-100 hover:bg-indigo-100 font-medium rounded-2xl text-sm px-3 py-2.5 text-center inline-flex items-center">
         Annuler
       </button>
-      <button (click)="saveChanges()" class="text-white bg-indigo-600 font-medium rounded-2xl text-sm px-3 py-2.5 text-center inline-flex items-center me-2 mb-2">
+      <button (click)="saveChanges()" class="text-white bg-indigo-600 font-medium rounded-2xl text-sm px-3 py-2.5 text-center inline-flex items-center">
         Enregistrer les modifications
       </button>
     </div>

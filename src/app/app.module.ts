@@ -24,6 +24,7 @@ import { TaskListComponent } from './task-list/task-list.component';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { DashboardContentComponent } from './components/dashboard-content/dashboard-content.component';
 import { DndModule } from 'ngx-drag-drop';
+import { AssignTaskModalComponent } from './components/assign-task-modal/assign-task-modal.component';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { DndModule } from 'ngx-drag-drop';
     TaskListComponent,
     BreadcrumbComponent,
     DashboardContentComponent,
+    AssignTaskModalComponent,
   ],
   imports: [
     BrowserModule,
