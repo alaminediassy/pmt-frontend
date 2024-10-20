@@ -45,15 +45,11 @@
 </div>
 
 <!-- Task list with drag-and-drop support -->
-<div
-  class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 bg-slate-100 p-4 rounded-xl"
->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 bg-slate-100 p-4 rounded-xl">
   <!-- TODO Section -->
-  <div
-    class="ring-1 ring-pink-300 border-double border-4 border-pink-100 ring-inset rounded-2xl p-4"
+  <div class="ring-1 ring-pink-300 border-double border-4 border-pink-100 ring-inset rounded-2xl p-4"
     dndDropzone
-    (dndDrop)="onTaskDrop($event, 'TODO')"
-  >
+    (dndDrop)="onTaskDrop($event, 'TODO')">
     <span class="text-lg font-semibold text-pink-500">À FAIRE</span>
     <div class="pt-4 flex flex-col gap-4">
       <!-- TASK TO DO -->
@@ -75,8 +71,8 @@
           <!-- Attribué à et bouton d'édition -->
           <div class="flex flex-row justify-between items-center pb-2">
             <div>
-              <p class="text-[12px] text-gray-500">Attribué à :</p>
-              <p class="text-sm">Mamadou</p>
+              <p class="text-[12px] text-gray-500">Assignée à :</p>
+              <p class="text-sm">{{ task.assignee?.username || 'Non assignée' }}</p>
             </div>
             <button
               class="flex items-center justify-center text-center text-slate-100 px-2 py-2 rounded-full bg-pink-500 w-[40px] h-[40px]"
@@ -152,31 +148,30 @@
         </div>
 
         <!-- Boutons d'assignation -->
-        <button
-          *ngIf="!task.assignee"
-          (click)="openAssignTaskModal(task.id, task.project.id)"
-          class="text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm mt-6 px-4 py-2"
-        >
-          Assigner cette tâche
+        <button *ngIf="!task.assignee" (click)="openAssignTaskModal(task)"
+        class="text-white bg-pink-500 hover:bg-pink-600 font-medium rounded-lg text-sm mt-6 px-4 py-2">
+        Assigner cette tâche
         </button>
+
         <button
           *ngIf="task.assignee"
           disabled
-          class="text-white bg-gray-400 font-medium rounded-lg text-sm px-4 py-2"
+          class="text-white bg-gray-400 font-medium rounded-lg text-sm px-4 py-2 mt-6"
         >
           Déjà assignée
         </button>
       </div>
     </div>
     <!-- Modal d'assignation -->
-    <app-assign-task-modal
+    <app-assign-task-modal 
       [isModalOpen]="isAssignTaskModalOpen"
-      [selectedTaskId]="selectedTaskId"
-      [selectedProjectId]="selectedProjectId"
+      [selectedTask]="selectedTask"
+      [selectedProject]="selectedProject"
       (closeModal)="closeAssignTaskModal()"
-      (taskAssigned)="onTaskAssigned()"
-    >
+      (taskAssigned)="onTaskAssigned()">
     </app-assign-task-modal>
+
+
   </div>
 
   <!-- IN PROGRESS SECTION -->
@@ -202,8 +197,8 @@
         <div>
           <div class="flex flex-row justify-between items-center pb-2">
             <div>
-              <p class="text-[12px] text-gray-500">Attribué à :</p>
-              <p class="text-sm">Mamadou</p>
+              <p class="text-[12px] text-gray-500">Assignée à :</p>
+              <p class="text-sm">{{ task.assignee?.username || 'Non assignée' }}</p>
             </div>
             <button
               class="flex items-center justify-center text-center text-white px-2 py-2 rounded-full bg-orange-500 w-[40px] h-[40px]"
@@ -272,6 +267,20 @@
             <span class="text-orange-600">{{ task.dueDate | date }}</span>
           </div>
         </div>
+
+        <button *ngIf="!task.assignee" (click)="openAssignTaskModal(task)"
+        class="text-white bg-orange-500 hover:bg-orange-600 font-medium rounded-lg text-sm mt-6 px-4 py-2">
+        Assigner cette tâche
+        </button>
+
+        <button
+          *ngIf="task.assignee"
+          disabled
+          class="text-white bg-gray-400 font-medium rounded-lg text-sm px-4 py-2 mt-6"
+        >
+          Déjà assignée
+        </button>
+
       </div>
     </div>
   </div>
@@ -293,8 +302,8 @@
         <div>
           <div class="flex flex-row justify-between items-center pb-2">
             <div>
-              <p class="text-[12px] text-gray-500">Attribué à :</p>
-              <p class="text-sm">Mamadou</p>
+              <p class="text-[12px] text-gray-500">Assignée à :</p>
+              <p class="text-sm">{{ task.assignee?.username || 'Non assignée' }}</p>
             </div>
             <button
               class="flex items-center justify-center text-center px-2 py-2 rounded-full text-white bg-indigo-500 w-[40px] h-[40px]"

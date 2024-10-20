@@ -6,10 +6,10 @@ import { DndDropEvent } from 'ngx-drag-drop';
 @Component({
   selector: 'app-task-list',
   templateUrl: './task-list.component.html',
-  styleUrl: './task-list.component.scss'
+  styleUrls: ['./task-list.component.scss']
 })
 export class TaskListComponent implements OnInit {
-  
+
   tasks: any[] = [];
   isTaskModalOpen = false;
   isAssignTaskModalOpen = false;
@@ -20,6 +20,9 @@ export class TaskListComponent implements OnInit {
 
   selectedTaskId: number | null = null;
   selectedProjectId: number | null = null;
+
+  selectedTask: any = null;
+  selectedProject: any = null;
 
   breadcrumbs = [
     { label: 'Dashboard', url: '/dashboard' },
@@ -37,9 +40,12 @@ export class TaskListComponent implements OnInit {
   }
 
   // Ouvrir le modal d'assignation avec la tâche et le projet sélectionnés
-  openAssignTaskModal(taskId: number, projectId: number) {
-    this.selectedTaskId = taskId;
-    this.selectedProjectId = projectId;
+  openAssignTaskModal(task: any) {
+    this.selectedTask = task;
+    this.selectedTaskId = task.id;
+    this.selectedProjectId = task.project.id;
+    this.selectedProject = task.project;
+
     this.isAssignTaskModalOpen = true;
   }
 
@@ -63,7 +69,8 @@ export class TaskListComponent implements OnInit {
       this.taskService.getTasksByUserId(userInfo.userId).subscribe({
         next: (tasks) => {
           this.tasks = tasks;
-          this.filterTasksByStatus(); 
+          console.log('Tâches récupérées :', this.tasks); 
+          this.filterTasksByStatus();
         },
         error: (error) => {
           console.error('Error while fetching tasks:', error);

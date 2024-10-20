@@ -97,6 +97,7 @@ export class ProjectListComponent implements OnInit {
   closeModal() {
     this.isModalOpen = false;
   }
+  
 
   ngOnInit(): void {
     const userInfo = this.authService?.getUserInfo();
