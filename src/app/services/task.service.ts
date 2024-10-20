@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ import { Observable } from 'rxjs';
 export class TaskService {
   private projectApiUrl = 'http://localhost:8091/api/projects';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   // Méthode pour créer une nouvelle tâche
   createTask(taskData: any, projectId: number, userId: number): Observable<any> {
@@ -47,6 +48,21 @@ export class TaskService {
     return this.http.get(`${this.projectApiUrl}/${projectId}/tasks`);
   }
 
+  // Method to update the task
+  updateTask(projectId: number, taskId: number, taskData: any): Observable<any> {
+    const userInfo = this.authService.getUserInfo();
 
+    if (!userInfo || !userInfo.userId) {
+      return throwError('User not authenticated or no userId available');
+    }
+
+    return this.http.put(`${this.projectApiUrl}/${projectId}/tasks/${taskId}/update/${userInfo.userId}`, taskData)
+      .pipe(
+        catchError(error => {
+          console.error('Error updating task:', error);
+          return throwError(error);
+        })
+      );
+  }
 
 }

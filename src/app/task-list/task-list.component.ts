@@ -13,6 +13,7 @@ export class TaskListComponent implements OnInit {
   tasks: any[] = [];
   isTaskModalOpen = false;
   isAssignTaskModalOpen = false;
+  isEditTaskModalOpen = false;
 
   tasksTodo: any[] = [];
   tasksInProgress: any[] = [];
@@ -58,6 +59,25 @@ export class TaskListComponent implements OnInit {
     this.closeAssignTaskModal(); // Fermer le modal après l'assignation
   }
 
+  // Méthode pour ouvrir le modal de modification d'une tâche
+  openEditTaskModal(task: any) {
+    this.selectedTask = task;
+    this.selectedTaskId = task.id;
+    this.selectedProjectId = task.project.id;
+    this.selectedProject = task.project;
+
+    this.isEditTaskModalOpen = true;
+  }
+
+  closeEditTaskModal() {
+    this.isEditTaskModalOpen = false;
+  }
+
+  onTaskUpdated() {
+    this.loadTasks(); // Recharger les tâches après la modification
+    this.closeEditTaskModal(); // Fermer le modal après modification
+  }
+
   // Nouvelle méthode pour gérer la création de tâche
   onTaskCreated() {
     this.loadTasks();  // Recharger les tâches après la création d'une tâche
@@ -99,6 +119,15 @@ export class TaskListComponent implements OnInit {
         }
       });
     }
+  }
+
+  translatePriority(priority: string): string {
+    const priorityMapping: { [key: string]: string } = {
+      'High': 'Haute',
+      'Medium': 'Moyenne',
+      'Low': 'Basse'
+    };
+    return priorityMapping[priority] || priority;
   }
 
   ngOnInit(): void {
