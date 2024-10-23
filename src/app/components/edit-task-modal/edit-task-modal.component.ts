@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TaskService } from '../../services/task.service';
+import moment from 'moment';
 
 @Component({
   selector: 'app-edit-task-modal',
@@ -9,18 +10,19 @@ import { TaskService } from '../../services/task.service';
 })
 export class EditTaskModalComponent implements OnInit, OnChanges {
 
-  @Input() isModalOpen: boolean = false;
-  @Input() selectedTask: any = null;         // La tâche sélectionnée à modifier
-  @Input() selectedProject: any = null;      // Le projet auquel appartient la tâche
-  @Output() closeModal = new EventEmitter<void>();   // Événement pour fermer le modal
-  @Output() taskUpdated = new EventEmitter<void>();  // Événement déclenché après la mise à jour de la tâche
+  @Input() isModalOpen: boolean = false;      // Indicates if the modal is open
+  @Input() selectedTask: any = null;          // The selected task to be edited
+  @Input() selectedProject: any = null;       // The project to which the task belongs
+  @Output() closeModal = new EventEmitter<void>();    // Event to close the modal
+  @Output() taskUpdated = new EventEmitter<void>();   // Event emitted after the task is updated
 
   taskForm!: FormGroup;
+  submissionError: string | null = null;      // Variable to store submission error
 
   constructor(private fb: FormBuilder, private taskService: TaskService) {}
 
   ngOnInit(): void {
-    // Initialisation du formulaire de modification avec les valeurs par défaut
+    // Initialize the form with default values
     this.taskForm = this.fb.group({
       name: ['', Validators.required],
       description: [''],
@@ -28,55 +30,64 @@ export class EditTaskModalComponent implements OnInit, OnChanges {
       completionDate: [''],
       priority: ['', Validators.required]
     });
-
-    console.log("Les valeurs remplies : ", this.taskForm)
   }
 
-  // Cette méthode est appelée lorsque les valeurs des @Input changent
+  // ngOnChanges to handle input updates and pre-fill form fields when the task is selected
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedTask'] && this.selectedTask) {
-      console.log('Tâche sélectionnée :', this.selectedTask);
+      console.log('Selected task:', this.selectedTask);
   
-      this.taskForm.patchValue({
-        name: this.selectedTask.name || '',
-        description: this.selectedTask.description || '',
-        dueDate: this.selectedTask.dueDate ? this.formatDate(this.selectedTask.dueDate) : '',
-        completionDate: this.selectedTask.completionDate ? this.formatDate(this.selectedTask.completionDate) : '',
-        priority: this.selectedTask.priority || ''
-      });
-  
-      console.log('Formulaire après patchValue :', this.taskForm.value);
+      // Assure-toi que le formGroup est initialisé
+      if (this.taskForm) {
+        // Prefill the form with selected task data
+        this.taskForm.patchValue({
+          name: this.selectedTask.name,
+          description: this.selectedTask.description,
+          dueDate: this.selectedTask.dueDate,
+          completionDate: this.selectedTask.completionDate || '',
+          priority: this.selectedTask.priority
+        });
+      } else {
+        console.error('FormGroup taskForm is not initialized yet.');
+      }
     }
   }
   
-  
 
-  // Méthode pour formater la date au format "yyyy-MM-dd" attendu par le champ <input type="date">
-  formatDate(date: string): string {
-    const d = new Date(date);
-    return d.toISOString().substring(0, 10);  // Retourne la date au format "yyyy-MM-dd"
+  // Method to format the date for input fields (yyyy-MM-dd)
+  formatDateForInput(date: string | null): string | null {
+    return date ? moment(date).format('YYYY-MM-DD') : null;
   }
 
-  // Méthode appelée lors de la soumission du formulaire
+  // Method to handle form submission and task update
   onSubmit(): void {
-    if (this.taskForm.valid && this.selectedTask) {
-      const taskData = this.taskForm.value;
-
-      // Appel du service pour mettre à jour la tâche
-      this.taskService.updateTask(this.selectedProject.id, this.selectedTask.id, taskData).subscribe({
-        next: () => {
-          this.taskUpdated.emit();   // Émettre l'événement de mise à jour
-          this.closeModal.emit();    // Fermer le modal après mise à jour
-        },
-        error: (error) => {
-          console.error('Erreur lors de la mise à jour de la tâche :', error);
-        }
-      });
+    if (this.taskForm.invalid) {
+      return;
     }
+
+    // Prepare the updated task data
+    const updatedTask = {
+      ...this.selectedTask, // Use selectedTask instead of undefined this.task
+      ...this.taskForm.value,
+      completionDate: this.taskForm.value.completionDate ? moment(this.taskForm.value.completionDate).format('YYYY-MM-DD') : null,
+      dueDate: this.taskForm.value.dueDate ? moment(this.taskForm.value.dueDate).format('YYYY-MM-DD') : null
+    };
+
+    // Call the service to update the task
+    this.taskService.updateTask(this.selectedProject.id, this.selectedTask.id, updatedTask).subscribe({
+      next: (response) => {
+        this.taskUpdated.emit();  // Emit the update event
+        this.closeModal.emit();   // Close the modal after successful update
+      },
+      error: (err) => {
+        console.error('Error updating task:', err);
+        this.submissionError = 'An error occurred while updating the task. Please try again.';  // Handle error
+      }
+    });
   }
 
-  // Méthode pour fermer le modal
+  // Method to close the modal
   close(): void {
-    this.closeModal.emit();  // Émet l'événement pour informer le parent que le modal doit être fermé
+    this.closeModal.emit();  // Emit the event to notify the parent to close the modal
   }
 }

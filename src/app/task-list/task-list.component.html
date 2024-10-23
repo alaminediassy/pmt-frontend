@@ -139,11 +139,15 @@
         <!-- Projet et date limite -->
         <div class="bg-pink-50 p-2 rounded-lg mt-4">
           <p class="text-sm text-gray-900">
-            PROJET : <span class="text-pink-600">{{ task.project?.name }}</span>
+            Projet : <span class="text-pink-600">{{ task.project?.name }}</span>
           </p>
-          <div class="text-sm text-gray-900 uppercase pt-2">
+          <div class="text-sm text-gray-900 pt-2">
             Echéance :
             <span class="text-pink-600">{{ task.dueDate | date }}</span>
+          </div>
+          <div class="text-sm text-gray-900 pt-2">
+            Date de fin :
+            <span class="text-pink-600">{{ task.completionDate | date }}</span>
           </div>
         </div>
 
@@ -209,6 +213,7 @@
               <p class="text-sm">{{ task.assignee?.username || 'Non assignée' }}</p>
             </div>
             <button
+            (click)="openEditTaskModal(task)"
               class="flex items-center justify-center text-center text-white px-2 py-2 rounded-full bg-orange-500 w-[40px] h-[40px]"
             >
               <svg
@@ -274,6 +279,10 @@
             Echéance :
             <span class="text-orange-600">{{ task.dueDate | date }}</span>
           </div>
+          <div class="text-sm text-gray-900 uppercase pt-2">
+            Date de fin :
+            <span class="text-orange-600">{{ task.completionDate | date }}</span>
+          </div>
         </div>
 
         <button *ngIf="!task.assignee" (click)="openAssignTaskModal(task)"
@@ -314,6 +323,7 @@
               <p class="text-sm">{{ task.assignee?.username || 'Non assignée' }}</p>
             </div>
             <button
+            disabled
               class="flex items-center justify-center text-center px-2 py-2 rounded-full text-white bg-indigo-500 w-[40px] h-[40px]"
             >
               <svg

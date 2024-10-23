@@ -19,4 +19,11 @@
       transition: all 0.3s ease-in-out;
     }
 }
-  
+
+.project-cursor {
+  cursor: url('/assets/cursors/indigo.svg'), auto;
+}
+
+.project-cursor:hover {
+  cursor: url('/assets/cursors/indigo.svg'), pointer;
+}
