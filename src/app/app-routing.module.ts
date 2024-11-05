@@ -7,6 +7,7 @@ import {DashboardComponent} from "./dashboard/dashboard.component";
 import { ProjectListComponent } from './project-list/project-list.component';
 import { TaskListComponent } from './task-list/task-list.component';
 import { AuthGuard } from './auth.guard';
+import { TaskHistoryComponent } from './task-history/task-history.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -21,6 +22,7 @@ const routes: Routes = [
     children: [
       { path: 'projects', component: ProjectListComponent },
       { path: 'tasks', component: TaskListComponent },
+      { path: 'history', component: TaskHistoryComponent },
     ] 
   },
   { path: '**', redirectTo: '', pathMatch: 'full' }

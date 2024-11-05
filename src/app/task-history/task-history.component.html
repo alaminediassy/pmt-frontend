@@ -1,0 +1,57 @@
+<!-- Sidebar Panel pour l'historique des tâches -->
+<div *ngIf="taskHistory.length > 0" id="historyPanel" class="fixed top-0 right-0 w-full sm:w-[800px] lg:w-[1200px] h-screen bg-white shadow-lg z-50 flex flex-col transition-transform duration-300">
+  
+    <!-- Panel header -->
+    <div class="flex justify-between items-center p-4 border-b">
+      <h3 class="text-base sm:text-lg font-semibold">Historique des modifications - Tâche : <span class="text-indigo-600 uppercase">{{ selectedTaskName }}</span></h3>
+      <button (click)="closePanel()" class="text-gray-400 hover:text-gray-600">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  
+    <!-- Panel body avec défilement -->
+    <div class="p-4 flex-grow overflow-y-auto">
+      <!-- Table des modifications -->
+      <div class="pb-10">
+        <h3 class="pb-4 text-base sm:text-lg">Modifications apportées</h3>
+        
+        <div class="relative overflow-x-auto border border-gray-200">
+          <table class="w-full text-sm text-left text-gray-500">
+            <thead class="text-xs text-gray-700 uppercase bg-indigo-100">
+              <tr>
+                <th scope="col" class="px-2 sm:px-6 py-3">Champ modifié</th>
+                <th scope="col" class="px-2 sm:px-6 py-3">Ancienne valeur</th>
+                <th scope="col" class="px-2 sm:px-6 py-3">Nouvelle valeur</th>
+                <th scope="col" class="px-2 sm:px-6 py-3" style="width: 200px;">Modifiée par </th>
+                <th scope="col" class="px-2 sm:px-6 py-3" style="width: 200px;">Date de modification</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let history of taskHistory" class="bg-white border-b">
+                <td class="px-2 sm:px-6 py-4">{{ history.fieldName }}</td>
+                <td class="px-2 sm:px-6 py-4">{{ history.oldValue || 'Non défini' }}</td>
+                <td class="px-2 sm:px-6 py-4">{{ history.newValue || 'Non défini' }}</td>
+                <td class="px-2 sm:px-6 py-4">{{ userCache[history.changedBy] || 'Utilisateur inconnu' }}</td>
+                <td class="px-2 sm:px-6 py-4">{{ history.changedAt | date:'short' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Bouton pour fermer le panel -->
+    <div class="p-4 border-t bg-white">
+      <div class="flex justify-end">
+        <button (click)="closePanel()" class="text-indigo-600 border-1 border-indigo-100 hover:bg-indigo-100 font-medium rounded-2xl text-sm px-3 py-2.5 text-center inline-flex items-center">
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Backdrop pour le panel -->
+  <div id="backdrop" class="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+  

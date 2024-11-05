@@ -26,6 +26,7 @@ import { DashboardContentComponent } from './components/dashboard-content/dashbo
 import { DndModule } from 'ngx-drag-drop';
 import { AssignTaskModalComponent } from './components/assign-task-modal/assign-task-modal.component';
 import { EditTaskModalComponent } from './components/edit-task-modal/edit-task-modal.component';
+import { TaskHistoryComponent } from './task-history/task-history.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { EditTaskModalComponent } from './components/edit-task-modal/edit-task-m
     BreadcrumbComponent,
     DashboardContentComponent,
     AssignTaskModalComponent,
-    EditTaskModalComponent
+    EditTaskModalComponent,
+    TaskHistoryComponent
   ],
   imports: [
     BrowserModule,

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TaskService } from '../services/task.service';
 import { AuthService } from '../services/auth.service';
 import { DndDropEvent } from 'ngx-drag-drop';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-task-list',
@@ -25,12 +26,19 @@ export class TaskListComponent implements OnInit {
   selectedTask: any = null;
   selectedProject: any = null;
 
+  selectedTaskName: string = '';
+  isHistoryPanelOpen: boolean = false;
+
   breadcrumbs = [
     { label: 'Dashboard', url: '/dashboard' },
     { label: 'Tasks' }
   ];
 
-  constructor(private taskService: TaskService, private authService: AuthService) {}
+  constructor(
+    private taskService: TaskService, 
+    private authService: AuthService,
+    private modalService: NgbModal
+  ) {}
 
   openTaskModal() {
     this.isTaskModalOpen = true;
@@ -120,6 +128,20 @@ export class TaskListComponent implements OnInit {
       });
     }
   }
+
+  // Ouvrir le panneau d'historique des modifications
+  openTaskHistoryPanel(task: any): void {
+    this.selectedProjectId = task.project.id;
+    this.selectedTaskId = task.id;
+    this.selectedTaskName = task.name;
+    this.isHistoryPanelOpen = true;
+  }
+
+  // Fermer le panneau d'historique
+  closeTaskHistoryPanel(): void {
+    this.isHistoryPanelOpen = false;
+  }
+
 
   translatePriority(priority: string): string {
     const priorityMapping: { [key: string]: string } = {

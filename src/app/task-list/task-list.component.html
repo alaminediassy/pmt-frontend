@@ -160,10 +160,24 @@
         </app-edit-task-modal>
 
         <!-- Boutons d'assignation -->
-        <button *ngIf="!task.assignee" (click)="openAssignTaskModal(task)"
-        class="text-white bg-pink-500 hover:bg-pink-600 font-medium rounded-lg text-sm mt-6 px-4 py-2">
-        Assigner cette tâche
-        </button>
+        <div class="flex flex-col">
+          <button *ngIf="!task.assignee" (click)="openAssignTaskModal(task)"
+            class="text-white bg-pink-500 hover:bg-pink-600 font-medium rounded-lg text-sm mt-6 px-4 py-2">
+            Assigner à
+          </button>
+          <!-- Bouton pour afficher l'historique des modifications -->
+          <button (click)="openTaskHistoryPanel(task)" class="text-white bg-indigo-500 hover:bg-indigo-600 font-medium rounded-lg text-sm mt-2 px-4 py-2">
+            Historique de la tache
+          </button>
+        </div>
+
+        <app-task-history
+          *ngIf="isHistoryPanelOpen && selectedProjectId !== null && selectedTaskId !== null"
+          [projectId]="selectedProjectId!"
+          [taskId]="selectedTaskId!"
+          [selectedTaskName]="selectedTaskName"
+          (closeHistoryPanel)="closeTaskHistoryPanel()">
+        </app-task-history>
 
         <button
           *ngIf="task.assignee"
@@ -285,15 +299,21 @@
           </div>
         </div>
 
-        <button *ngIf="!task.assignee" (click)="openAssignTaskModal(task)"
-        class="text-white bg-orange-500 hover:bg-orange-600 font-medium rounded-lg text-sm mt-6 px-4 py-2">
-        Assigner cette tâche
-        </button>
+        <div class="flex flex-col">
+          <button *ngIf="!task.assignee" (click)="openAssignTaskModal(task)"
+            class="text-white bg-orange-500 hover:bg-orange-600 font-medium rounded-lg text-sm mt-6 px-4 py-2">
+            Assigner à
+          </button>
+          <!-- Bouton pour afficher l'historique des modifications -->
+          <button (click)="openTaskHistoryPanel(task)" class="text-white bg-indigo-500 hover:bg-indigo-600 font-medium rounded-lg text-sm mt-2 px-4 py-2">
+            Historique de la tache
+          </button>
+        </div>
 
         <button
           *ngIf="task.assignee"
           disabled
-          class="text-white bg-gray-400 font-medium rounded-lg text-sm px-4 py-2 mt-6"
+          class="text-white bg-gray-400 font-medium rounded-lg text-sm px-4 py-2 mt-6 mt-2"
         >
           Déjà assignée
         </button>
@@ -389,6 +409,12 @@
             Echéance :
             <span class="text-indigo-600">{{ task.dueDate | date }}</span>
           </div>
+        </div>
+        <div class="flex flex-col">
+          <!-- Bouton pour afficher l'historique des modifications -->
+          <button (click)="openTaskHistoryPanel(task)" class="text-white bg-indigo-500 hover:bg-indigo-600 font-medium rounded-lg text-sm mt-4 px-4 py-2">
+            Historique de la tache
+          </button>
         </div>
       </div>
     </div>

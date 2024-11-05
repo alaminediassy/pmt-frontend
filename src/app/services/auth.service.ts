@@ -19,10 +19,10 @@ interface LoginUser {
   providedIn: 'root'
 })
 export class AuthService {
-  private registerApiUrl = 'http://localhost:8091/api/users/register';
-  private loginApiUrl = 'http://localhost:8091/api/users/login';
-  private logoutApiUrl = 'http://localhost:8091/api/users/logout';
-  private tokenKey = 'authToken';  // Clé du token dans le localStorage
+  private registerApiUrl = 'http://localhost:8098/api/users/register';
+  private loginApiUrl = 'http://localhost:8098/api/users/login';
+  private logoutApiUrl = 'http://localhost:8098/api/users/logout';
+  private tokenKey = 'authToken';
 
   constructor(private http: HttpClient) {}
 
@@ -69,10 +69,10 @@ export class AuthService {
     const token = this.getToken();
     if (token) {
       try {
-        const decodedToken: any = jwtDecode(token);  // Décoder le token JWT
+        const decodedToken: any = jwtDecode(token); 
         return {
-          userId: decodedToken.userId,  // Assure-toi que le token contient userId
-          username: decodedToken.username  // Assure-toi que le token contient username
+          userId: decodedToken.userId,
+          username: decodedToken.username
         };
       } catch (error) {
         console.error('Erreur lors du décodage du token JWT:', error);

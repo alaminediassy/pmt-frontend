@@ -7,7 +7,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class TaskService {
-  private projectApiUrl = 'http://localhost:8091/api/projects';
+  private projectApiUrl = 'http://localhost:8098/api/projects';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -63,6 +63,12 @@ export class TaskService {
           return throwError(error);
         })
       );
+  }
+
+
+  // Récupérer l'historique des modifications d'une tâche
+  getTaskHistory(projectId: number, taskId: number): Observable<any> {
+    return this.http.get(`${this.projectApiUrl}/${projectId}/tasks/${taskId}/history`);
   }
 
 }
