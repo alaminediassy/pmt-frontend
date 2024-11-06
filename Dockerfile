@@ -1,19 +1,19 @@
 # Dockerfile pour le frontend Angular
 # Étape de construction
-FROM node:16 AS builder
+FROM node:20 AS builder
 WORKDIR /app
 
-# Installation des dépendances
+# Installation des dépendances en cache
 COPY package*.json ./
-RUN npm install
+RUN npm install --legacy-peer-deps
 
-# Copie du code source et build Angular
+# Copie du reste du code source et build Angular
 COPY . .
 RUN npm run build --prod
 
-# Étape de déploiement avec Nginx
+# Étape de déploiement Nginx
 FROM nginx:alpine
-COPY --from=builder /app/dist/your-app-name /usr/share/nginx/html
+COPY --from=builder /app/dist/pmt-frontend /usr/share/nginx/html
 EXPOSE 80
 
 # Commande de démarrage de Nginx
