@@ -13,7 +13,6 @@ export class DashboardComponent {
   userId: number | null = null;
   showDashboardContent: boolean = true;
 
-  // Open create project modal
   isModalOpen = false;
 
   constructor(private authService: AuthService, private router: Router) {}
@@ -31,26 +30,22 @@ export class DashboardComponent {
     });
   }
 
-  // Méthode pour ouvrir/fermer le sidebar avec prevention de la propagation
   toggleSidebar(event: Event) {
-    event.stopPropagation();  // Empêche la propagation du clic pour ne pas fermer immédiatement
+    event.stopPropagation();
     this.sidebarVisible = !this.sidebarVisible;
   }
 
-  // Ferme le sidebar si on clique en dehors
   @HostListener('document:click', ['$event'])
   onClickOutside(event: Event) {
     const clickedElement = event.target as HTMLElement;
     const sidebar = document.getElementById('default-sidebar');
 
-    // Vérifie si le clic s'est produit en dehors du sidebar et que le sidebar est visible
     if (this.sidebarVisible && sidebar && !sidebar.contains(clickedElement)) {
       this.sidebarVisible = false;
     }
   }
 
 
-  // Méthode pour ouvrir le modal de création de projet
   openModal() {
     this.isModalOpen = true;
   }

@@ -29,8 +29,8 @@ export class TaskService {
   // Méthode pour mettre à jour le statut d'une tâche
   updateTaskStatus(taskId: number, projectId: number, userId: number, status: string): Observable<any> {
     const url = `${this.projectApiUrl}/${projectId}/tasks/${taskId}/update-status/${userId}`;
-    const statusBody = { status };  // Encapsuler dans un objet si le backend attend un body JSON
-    return this.http.put(url, statusBody);  // Appel PUT
+    const statusBody = { status };
+    return this.http.put(url, statusBody);
   }
 
   // Nouvelle méthode pour récupérer les membres d'un projet

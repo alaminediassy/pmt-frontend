@@ -13,15 +13,13 @@ export class AuthGuard implements CanMatch {
     route: Route,
     segments: UrlSegment[]
   ): boolean | Observable<boolean> | Promise<boolean> {
-    // Vérifie si le token est présent et valide
     const token = this.authService.getToken();
 
     if (token) {
       return true;
     }
 
-    // Si pas de token, rediriger vers la page de login
     this.router.navigate(['/login']);
-    return false;  // Bloquer l'accès à la route
+    return false;
   }
 }

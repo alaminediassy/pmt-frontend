@@ -9,10 +9,10 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./invite-member.component.scss']
 })
 export class InviteMemberComponent implements OnInit {
-  @Input() isInviteMemberModalOpen = false; // Contrôle l'ouverture du modal
-  @Output() close = new EventEmitter<void>(); // Emission d'un événement pour la fermeture
-  email: string = ''; // Stockage de l'email à inviter
-  @Input() selectedProjectId: number | null = null; // Projet sélectionné
+  @Input() isInviteMemberModalOpen = false; 
+  @Output() close = new EventEmitter<void>(); 
+  email: string = '';
+  @Input() selectedProjectId: number | null = null;
   
   constructor(
     private projectService: ProjectService,
@@ -26,7 +26,7 @@ export class InviteMemberComponent implements OnInit {
 
   // Fermer la modale proprement
   closeInviteMemberModal() {
-    this.close.emit(); // Émet l'événement de fermeture
+    this.close.emit();
   }
 
   // Soumettre l'invitation

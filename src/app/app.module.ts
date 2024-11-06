@@ -17,7 +17,6 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectModalComponent } from './components/project-modal/project-modal.component';
 import { InviteMemberComponent } from './components/invite-member/invite-member.component';
-import { TestPanelComponent } from './test-panel/test-panel.component';
 import { RoleManagementComponent } from './components/role-management/role-management.component';
 import { TaskModalComponent } from './components/task-modal/task-modal.component';
 import { TaskListComponent } from './task-list/task-list.component';
@@ -41,7 +40,6 @@ import { TaskHistoryComponent } from './task-history/task-history.component';
     ProjectListComponent,
     ProjectModalComponent,
     InviteMemberComponent,
-    TestPanelComponent,
     RoleManagementComponent,
     TaskModalComponent,
     TaskListComponent,

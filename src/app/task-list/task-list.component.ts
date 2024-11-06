@@ -143,14 +143,6 @@ export class TaskListComponent implements OnInit {
   }
 
 
-  translatePriority(priority: string): string {
-    const priorityMapping: { [key: string]: string } = {
-      'High': 'Haute',
-      'Medium': 'Moyenne',
-      'Low': 'Basse'
-    };
-    return priorityMapping[priority] || priority;
-  }
 
   ngOnInit(): void {
     this.loadTasks();
