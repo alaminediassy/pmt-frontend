@@ -15,6 +15,11 @@ export class RegisterComponent {
 
   constructor(private authService: AuthService, private router: Router) {}
 
+
+  /**
+   * Méthode pour gérer la soumission du formulaire d'inscription
+   * Crée un nouvel utilisateur en appelant le service d'authentification
+   */
   onSubmit() {
     const user = {
       username: this.username,

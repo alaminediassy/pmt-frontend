@@ -20,10 +20,18 @@ export class TaskHistoryComponent implements OnInit {
 
   constructor(private taskService: TaskService, private userService: UserService) {}
 
+  /**
+   * Initialisation du composant
+   * Charge l'historique des modifications de la tâche dès le chargement du composant
+   */
   ngOnInit(): void {
     this.loadTaskHistory();
   }
 
+  /**
+   * Charge l'historique des modifications pour la tâche spécifiée
+   * Appelle le service pour récupérer l'historique, puis charge les noms d'utilisateur associés
+   */
   loadTaskHistory(): void {
     this.taskService.getTaskHistory(this.projectId, this.taskId).subscribe({
       next: (history) => {
@@ -36,6 +44,10 @@ export class TaskHistoryComponent implements OnInit {
     });
   }
 
+  /**
+   * Récupère le nom de l'utilisateur associé à un ID donné et le met en cache
+   * @param userId - L'ID de l'utilisateur dont on veut récupérer le nom
+   */
   fetchUserName(userId: number): void {
     if (this.userCache[userId]) return; 
 
@@ -50,7 +62,9 @@ export class TaskHistoryComponent implements OnInit {
     });
   }
 
-
+  /**
+   * Émet un événement pour fermer le panneau d'historique des tâches
+   */
   closePanel(): void {
     this.closeHistoryPanel.emit();
   }

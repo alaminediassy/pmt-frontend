@@ -20,16 +20,28 @@ export class InviteMemberComponent implements OnInit {
     private toastr: ToastrService
   ) {}
 
+
+  /**
+   * Lifecycle hook triggered on component initialization.
+   * Logs the selected project ID for debugging purposes.
+   */
   ngOnInit(): void {
     console.log('ID du projet sélectionné:', this.selectedProjectId);
   }
 
-  // Fermer la modale proprement
+  
+  /**
+   * Closes the invite member modal and emits the `close` event to notify the parent component.
+   */
   closeInviteMemberModal() {
     this.close.emit();
   }
 
-  // Soumettre l'invitation
+  /**
+   * Handles the submission of the member invitation.
+   * Validates input fields, retrieves user info from the AuthService, and calls ProjectService
+   * to invite the specified email address to the selected project.
+   */
   onSubmit() {
     if (!this.email || !this.selectedProjectId) {
       console.error('Veuillez remplir tous les champs');
@@ -37,6 +49,7 @@ export class InviteMemberComponent implements OnInit {
       return;
     }
 
+    // Get user information from the AuthService
     const userInfo = this.authService.getUserInfo();
     if (userInfo) {
       this.projectService.inviteMemberToProject(this.selectedProjectId, userInfo.userId, this.email).subscribe({

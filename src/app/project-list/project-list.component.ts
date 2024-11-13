@@ -24,37 +24,52 @@ export class ProjectListComponent implements OnInit {
 
   constructor(private projectService: ProjectService, private authService: AuthService) {}
 
-  // Méthode pour ouvrir le modal d'invitation
+  /**
+   * Ouvre le modal d'invitation de membres pour un projet
+   * @param projectId - ID du projet sélectionné pour l'invitation
+   */
   openInviteMemberModal(projectId: number) {
     console.log('ID du projet sélectionné:', projectId);
     this.selectedProjectId = projectId;
     this.isInviteMemberModalOpen = true;
   }
 
-  // Ouvrir le modal de création de tâche
+  /**
+   * Ouvre le modal de création de tâche
+   */
   openTaskModal() {
     this.isTaskModalOpen = true;
   }
 
+  /**
+   * Ferme le modal de création de tâche
+   */
   closeTaskModal() {
     this.isTaskModalOpen = false;
   }
 
-  // Fermer les modals (invitation de membres et création de tâches)
+  /**
+   * Ferme les modals (invitation de membres et création de tâches)
+   */
   closeInviteMemberModal() {
     this.isInviteMemberModalOpen = false;
     this.isTaskModalOpen = false;
     this.selectedProjectId = null;
   }
 
-  // Ouvrir le panel de gestion des rôles
+  /**
+   * Ouvre le panel de gestion des rôles pour un projet spécifique
+   * @param project - Projet sélectionné pour la gestion des rôles
+   */
   openRoleManagementPanel(project: any) {
     console.log('Projet sélectionné pour la gestion des rôles:', project);
     this.selectedProject = project;
     this.isPanelOpen = true;
   }
 
-  // Fermer le panel de gestion des rôles
+  /**
+   * Ferme le panel de gestion des rôles
+   */
   closeRoleManagementPanel() {
     this.isPanelOpen = false;
     this.selectedProject = null;
@@ -63,6 +78,9 @@ export class ProjectListComponent implements OnInit {
   // Rafraîchissement des rôles
   isRefreshing: boolean = false;
 
+  /**
+   * Déclenche le rafraîchissement de la liste des projets après une mise à jour des rôles
+   */
   onRolesUpdated() {
     if (!this.isRefreshing) {
       this.isRefreshing = true;
@@ -71,6 +89,9 @@ export class ProjectListComponent implements OnInit {
     }
   }
 
+  /**
+   * Rafraîchit les informations du projet sélectionné après modification
+   */
   refreshSelectedProject() {
     const userInfo = this.authService?.getUserInfo();
     if (userInfo && this.selectedProjectId) {
@@ -87,7 +108,6 @@ export class ProjectListComponent implements OnInit {
     }
   }
 
-  // Modal pour création de projets
   isModalOpen = false;
 
   openModal() {

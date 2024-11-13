@@ -12,7 +12,10 @@ export class SidebarComponent {
   
   constructor(private authService: AuthService, private router: Router) {}
 
-  // Méthode pour gérer la déconnexion
+  /**
+   * Gère la déconnexion de l'utilisateur
+   * Supprime le token d'authentification et redirige vers la page de connexion
+   */
   onLogout() {
     this.authService.logoutUser().subscribe({
       next: (response) => {

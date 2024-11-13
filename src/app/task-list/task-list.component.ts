@@ -48,7 +48,6 @@ export class TaskListComponent implements OnInit {
     this.isTaskModalOpen = false;
   }
 
-  // Ouvrir le modal d'assignation avec la tâche et le projet sélectionnés
   openAssignTaskModal(task: any) {
     this.selectedTask = task;
     this.selectedTaskId = task.id;
@@ -63,11 +62,10 @@ export class TaskListComponent implements OnInit {
   }
 
   onTaskAssigned() {
-    this.loadTasks(); // Recharger les tâches après l'assignation
-    this.closeAssignTaskModal(); // Fermer le modal après l'assignation
+    this.loadTasks(); 
+    this.closeAssignTaskModal();
   }
 
-  // Méthode pour ouvrir le modal de modification d'une tâche
   openEditTaskModal(task: any) {
     this.selectedTask = task;
     this.selectedTaskId = task.id;
@@ -82,15 +80,17 @@ export class TaskListComponent implements OnInit {
   }
 
   onTaskUpdated() {
-    this.loadTasks(); // Recharger les tâches après la modification
-    this.closeEditTaskModal(); // Fermer le modal après modification
+    this.loadTasks();
+    this.closeEditTaskModal();
   }
 
-  // Nouvelle méthode pour gérer la création de tâche
   onTaskCreated() {
-    this.loadTasks();  // Recharger les tâches après la création d'une tâche
+    this.loadTasks();
   }
 
+  /**
+   * Load tasks for the authenticated user and categorize them by status
+   */
   loadTasks() {
     const userInfo = this.authService.getUserInfo();
     if (userInfo && userInfo.userId) {
@@ -107,12 +107,20 @@ export class TaskListComponent implements OnInit {
     }
   }
 
+  /**
+   * Organize tasks into different lists based on their status
+   */
   filterTasksByStatus() {
     this.tasksTodo = this.tasks.filter(task => task.status === 'TODO');
     this.tasksInProgress = this.tasks.filter(task => task.status === 'IN_PROGRESS');
     this.tasksCompleted = this.tasks.filter(task => task.status === 'COMPLETED');
   }
 
+   /**
+   * Handle task drop event to update task status
+   * @param event Drag-and-drop event containing the task data
+   * @param newStatus The new status to assign to the task
+   */
   onTaskDrop(event: DndDropEvent, newStatus: string) {
     const task = event.data;
     const userInfo = this.authService.getUserInfo();
@@ -129,7 +137,10 @@ export class TaskListComponent implements OnInit {
     }
   }
 
-  // Ouvrir le panneau d'historique des modifications
+  /**
+   * Open the history panel to show modifications for the selected task
+   * @param task The task for which to display history
+   */
   openTaskHistoryPanel(task: any): void {
     this.selectedProjectId = task.project.id;
     this.selectedTaskId = task.id;
@@ -137,13 +148,17 @@ export class TaskListComponent implements OnInit {
     this.isHistoryPanelOpen = true;
   }
 
-  // Fermer le panneau d'historique
+  /**
+   * Close the history panel
+   */
   closeTaskHistoryPanel(): void {
     this.isHistoryPanelOpen = false;
   }
 
 
-
+  /**
+   * Initialize the component by loading tasks
+   */
   ngOnInit(): void {
     this.loadTasks();
   }

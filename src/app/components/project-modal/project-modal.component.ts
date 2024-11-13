@@ -24,10 +24,19 @@ export class ProjectModalComponent {
     private toastr: ToastrService
   ) {}
 
+  /**
+   * Emits the close event to notify the parent component to close the modal.
+   */
   closeModal() {
     this.close.emit();
   }
 
+
+  /**
+   * Handles the form submission to create a new project.
+   * Validates user authentication, prepares project data, and calls the ProjectService.
+   * On success, closes the modal and redirects to the dashboard; on failure, displays an error message.
+   */
   onSubmit() {
     const project = {
       name: this.projectName,
@@ -35,9 +44,11 @@ export class ProjectModalComponent {
       startDate: this.projectStartDate
     };
 
+    // Retrieve authentication token and user information
     const token = this.authService.getToken();
     const userInfo = this.authService.getUserInfo();
 
+    // Check for valid user authentication
     if (!token || !userInfo || !userInfo.userId) {
       console.error('Erreur: Utilisateur non authentifié ou token manquant');
       this.toastr.error('Erreur d\'authentification', 'Erreur');
@@ -47,6 +58,7 @@ export class ProjectModalComponent {
 
     const userId = userInfo.userId;
 
+    // Call ProjectService to create the project and handle responses
     this.projectService.createProject(project, userId.toString(), token).subscribe({
       next: (response) => {
         console.log('Projet créé avec succès', response);

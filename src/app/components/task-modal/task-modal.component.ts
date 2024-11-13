@@ -25,6 +25,10 @@
       private toastr: ToastrService
     ) {}
 
+    /**
+     * Lifecycle hook for component initialization
+     * Sets up the form structure and loads user projects if authenticated
+     */
     ngOnInit(): void {
       this.taskForm = this.fb.group({
         name: ['', Validators.required],
@@ -34,17 +38,20 @@
         projectId: ['', Validators.required]
       });
 
-      // Vérification de l'authentification de l'utilisateur
+      // Check if user is authenticated and fetch their user ID
       const userInfo = this.authService.getUserInfo();
       if (userInfo && userInfo.userId) {
-        this.userId = userInfo.userId;  // Assigner l'ID utilisateur
-        this.loadUserProjects();  // Charger les projets de l'utilisateur
+        this.userId = userInfo.userId;
+        this.loadUserProjects();
       } else {
         console.error('Utilisateur non authentifié ou informations utilisateur manquantes');
       }
     }
 
-    // Charger les projets de l'utilisateur connecté
+    /**
+     * Fetches the list of projects for the authenticated user
+     * Displays an error message if the retrieval fails
+     */
     loadUserProjects() {
       if (this.userId) {
         this.projectService.getProjectsByUserId(this.userId).subscribe({
@@ -59,7 +66,11 @@
       }
     }
 
-    // Méthode appelée lors de la soumission du formulaire
+    /**
+     * Handles the form submission for creating a new task
+     * Validates the form, constructs task data, and calls the service to create the task
+     * Emits events on successful creation or displays an error message if creation fails
+     */
     onSubmit() {
       if (this.taskForm.valid && this.userId) {
         const formValues = this.taskForm.value;
@@ -71,7 +82,7 @@
           projectId: formValues.projectId
         };
 
-        // Appel pour créer la tâche
+        // Call service to create the task
         this.projectService.createTask(taskData, this.userId).subscribe({
           next: () => {
             this.toastr.success('Tâche créée avec succès !');
@@ -88,7 +99,9 @@
       }
     }
 
-    // Méthode pour fermer le modal
+    /**
+     * Closes the task modal and emits the close event
+     */
     close() {
       this.closeModal.emit();
     }

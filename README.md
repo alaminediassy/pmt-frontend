@@ -61,7 +61,7 @@ Cette application interagit avec une API backend pour obtenir et mettre à jour 
 
 1. Clonez le dépôt du projet :
    ```bash
-   git clone https://github.com/votre-utilisateur/pmt-frontend.git
+   git clone https://github.com/alaminediassy/pmt-frontend.git
    cd pmt-frontend
    ```
 

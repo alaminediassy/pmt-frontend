@@ -10,19 +10,22 @@ import moment from 'moment';
 })
 export class EditTaskModalComponent implements OnInit, OnChanges {
 
-  @Input() isModalOpen: boolean = false;      // Indicates if the modal is open
-  @Input() selectedTask: any = null;          // The selected task to be edited
-  @Input() selectedProject: any = null;       // The project to which the task belongs
-  @Output() closeModal = new EventEmitter<void>();    // Event to close the modal
-  @Output() taskUpdated = new EventEmitter<void>();   // Event emitted after the task is updated
+  @Input() isModalOpen: boolean = false;
+  @Input() selectedTask: any = null;
+  @Input() selectedProject: any = null;
+  @Output() closeModal = new EventEmitter<void>();
+  @Output() taskUpdated = new EventEmitter<void>();
 
   taskForm!: FormGroup;
-  submissionError: string | null = null;      // Variable to store submission error
+  submissionError: string | null = null;
 
   constructor(private fb: FormBuilder, private taskService: TaskService) {}
 
+
+  /**
+   * Lifecycle hook that initializes the reactive form for editing tasks.
+   */
   ngOnInit(): void {
-    // Initialize the form with default values
     this.taskForm = this.fb.group({
       name: ['', Validators.required],
       description: [''],
@@ -32,7 +35,12 @@ export class EditTaskModalComponent implements OnInit, OnChanges {
     });
   }
 
-  // ngOnChanges to handle input updates and pre-fill form fields when the task is selected
+  
+  /**
+   * Lifecycle hook that is triggered when any input properties change.
+   * Used here to pre-fill the form with the selected task data.
+   * @param changes - Object containing changes to input properties.
+   */
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedTask'] && this.selectedTask) {
       console.log('Selected task:', this.selectedTask);
@@ -54,30 +62,37 @@ export class EditTaskModalComponent implements OnInit, OnChanges {
   }
   
 
-  // Method to format the date for input fields (yyyy-MM-dd)
+  /**
+   * Formats a date string for the input field.
+   * @param date - Date string to format.
+   * @returns Formatted date string in 'YYYY-MM-DD' format.
+   */
   formatDateForInput(date: string | null): string | null {
     return date ? moment(date).format('YYYY-MM-DD') : null;
   }
 
-  // Method to handle form submission and task update
+
+  /**
+   * Handles form submission by updating the task data.
+   * Calls the TaskService to save changes, then emits events to update
+   * the task list and close the modal upon success.
+   */
   onSubmit(): void {
     if (this.taskForm.invalid) {
       return;
     }
 
-    // Prepare the updated task data
     const updatedTask = {
-      ...this.selectedTask, // Use selectedTask instead of undefined this.task
+      ...this.selectedTask, 
       ...this.taskForm.value,
       completionDate: this.taskForm.value.completionDate ? moment(this.taskForm.value.completionDate).format('YYYY-MM-DD') : null,
       dueDate: this.taskForm.value.dueDate ? moment(this.taskForm.value.dueDate).format('YYYY-MM-DD') : null
     };
 
-    // Call the service to update the task
     this.taskService.updateTask(this.selectedProject.id, this.selectedTask.id, updatedTask).subscribe({
       next: (response) => {
-        this.taskUpdated.emit();  // Emit the update event
-        this.closeModal.emit();   // Close the modal after successful update
+        this.taskUpdated.emit();  
+        this.closeModal.emit();
       },
       error: (err) => {
         console.error('Error updating task:', err);
@@ -86,7 +101,9 @@ export class EditTaskModalComponent implements OnInit, OnChanges {
     });
   }
 
-  // Method to close the modal
+  /**
+   * Closes the modal by emitting an event to the parent component.
+   */
   close(): void {
     this.closeModal.emit();  // Emit the event to notify the parent to close the modal
   }

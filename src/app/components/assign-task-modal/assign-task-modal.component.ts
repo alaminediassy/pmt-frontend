@@ -20,6 +20,11 @@ export class AssignTaskModalComponent implements OnChanges {
 
   constructor(private projectService: ProjectService, private authService: AuthService) {}
 
+
+  /**
+   * Detects changes to input properties. Loads members if a new project is selected.
+   * @param changes - Contains the changed input properties
+   */
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedProject'] && this.selectedProject) {
       console.log('Projet sélectionné a changé :', this.selectedProject);
@@ -28,8 +33,8 @@ export class AssignTaskModalComponent implements OnChanges {
   }
 
   /**
-   * Load the members of the selected project
-   * @param projectId 
+   * Loads members of the given project.
+   * @param projectId - ID of the project whose members are to be loaded
    */
   loadProjectMembers(projectId: number) {
     console.log('Chargement des membres pour le projet ID:', projectId);
@@ -44,6 +49,10 @@ export class AssignTaskModalComponent implements OnChanges {
     });
   }
 
+
+  /**
+   * Assigns the selected task to a member. Emits events upon success or error.
+   */
   assignTask() {
     if (this.selectedTask && this.selectedMemberId) {
       const userInfo = this.authService.getUserInfo();
@@ -71,7 +80,9 @@ export class AssignTaskModalComponent implements OnChanges {
     }
   }
   
-
+  /**
+   * Closes the modal by emitting the closeModal event.
+   */
   close() {
     this.closeModal.emit();
   }

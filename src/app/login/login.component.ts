@@ -15,6 +15,11 @@ export class LoginComponent {
 
   constructor(private authService: AuthService, private router: Router) {}
 
+
+  /**
+   * Méthode appelée lors de la soumission du formulaire de connexion.
+   * Prépare les informations d'utilisateur et tente la connexion via AuthService.
+   */
   onSubmit() {
     const user = {
       email: this.email,
@@ -25,10 +30,8 @@ export class LoginComponent {
       next: (response) => {
         console.log("Login successfully", response);
 
-        // Stocker le token JWT après la connexion
         this.authService.saveToken(response.token);
 
-        // Utiliser getUserInfo pour récupérer les informations utilisateur
         const userInfo = this.authService.getUserInfo();
         if (userInfo) {
           console.log('Utilisateur connecté:', userInfo.username);

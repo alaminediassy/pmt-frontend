@@ -6,10 +6,8 @@ import { Component } from '@angular/core';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-  // Variable pour gérer l'état du menu mobile
   mobileMenuOpen = false;
 
-  // Navigation menu
   navigation = [
     { name: 'Dashboard', href: '/dashboard' },
     { name: 'Features', href: '#' },
@@ -17,7 +15,6 @@ export class HeaderComponent {
     { name: 'Company', href: '#' },
   ];
 
-  // Méthode pour ouvrir/fermer le menu mobile
   toggleMobileMenu() {
     this.mobileMenuOpen = !this.mobileMenuOpen;
   }
